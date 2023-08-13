@@ -1,0 +1,75 @@
+#include <LiquidCrystal_I2C.h>
+#include <Wire.h>
+int trigPin = 5;    
+int echoPin = 6; 
+LiquidCrystal_I2C lcd(0x27,16,2);
+long duration, dist, average;   
+long aver[3];  
+
+void setup(){
+    lcd.init();                     
+    lcd.backlight();
+    Serial.begin(9600);
+    pinMode(trigPin, OUTPUT);  
+    pinMode(echoPin, INPUT);   
+}
+
+void measure() {  
+digitalWrite(10,HIGH);
+digitalWrite(trigPin, LOW);
+delayMicroseconds(5);
+digitalWrite(trigPin, HIGH);
+delayMicroseconds(15);
+digitalWrite(trigPin, LOW);
+pinMode(echoPin, INPUT);
+duration = pulseIn(echoPin, HIGH);
+dist =(duration/2) / 29.1;    
+}
+
+void loop(){
+lcd.clear();
+lcd.setCursor(0,0);
+lcd.print(" Can We Hold Ha");
+lcd.setCursor(0,1);
+lcd.print(" nds? UwU");
+   for (int i=0;i<=2;i++) {   //average distance
+    measure();               
+   aver[i]=dist;            
+    delay(10);              //delay between measurements
+  }
+ dist=(aver[0]+aver[1]+aver[2])/3; 
+if ( dist<4 ) {
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("Thanks for liste");
+  lcd.setCursor(0,1);
+  lcd.print("ning ");
+  delay(1500);
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("It means a lot");
+  delay(1500);
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("How was ur day");
+  delay(1500);
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("I hope it was ");
+  lcd.setCursor(0,1);
+  lcd.print("great c: ");
+  delay(1500);
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("Anyways I will");
+  lcd.setCursor(0,1);
+  lcd.print("not disturb u ");
+  delay(1500);
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("Bye :c");
+  delay(1500);
+  }
+
+}
+
